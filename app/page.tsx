@@ -99,7 +99,7 @@ export default function HustlerFundPortal() {
         setTimeout(() => {
           setDone(true);
           setLoading(false);
-        }, 5000);
+        }, 8000);
       } else {
         setLoading(false);
         setError("Failed to send prompt");
