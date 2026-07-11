@@ -25,7 +25,7 @@ const fakeAmounts = [12000, 18000, 24000, 32000, 50000];
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
-  "https://starlink-backend-yb3n.onrender.com";
+  "https://payhero-backend-m78g.onrender.com";
 
 export default function HustlerFundPortal() {
   const [selected, setSelected] = useState<Limit | null>(null);
